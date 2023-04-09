@@ -18,7 +18,7 @@ function createMarkupCounties(countriesArr) {
     countryResultListEl.insertAdjacentHTML('beforeend', markupCountriesList);
 }
 
-function markupCountryCard(countriesArr) { 
+function createMarkupCountryCard(countriesArr) { 
   const { name, capital, population, languages, flags } = countriesArr; 
   const markup = ` 
     <img src="${flags.svg}" alt="${flags.alt}" height = "50" width = "100"> 
@@ -42,18 +42,19 @@ function onInputSearch(evt) {
     fetchCountries(inputValue)
         .then(countriesArr => {
             if (countriesArr.length > 10) {
-                return Notiflix.Notify.info(`Too many matches found. Please enter a more specific name`);
+                Notiflix.Notify.info(`Too many matches found. Please enter a more specific name`);
+                return;
             }
             console.log(countriesArr)
             if (2 <= countriesArr.length <= 10) {
                 createMarkupCounties(countriesArr);
             }
             if (countriesArr.length === 1) {
-             markupCountryCard(countriesArr[0]);
+             createMarkupCountryCard(countriesArr[0]);
             }
         })
         .catch((error) => {
-            if (error.message = '404') {
+            if (error.message === '404') {
             Notiflix.Notify.failure('Oops, there is no country with that name');
         }
         })
